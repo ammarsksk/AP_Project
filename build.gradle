@@ -1,22 +1,18 @@
-buildscript {
-  repositories {
-    mavenCentral()
-    maven { url 'https://s01.oss.sonatype.org' }
-    gradlePluginPortal()
-    mavenLocal()
-    google()
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-    maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
-  }
-  dependencies {
-
-
-  }
+repositories {
+  mavenCentral()
+  maven { url 'https://s01.oss.sonatype.org' }
+  gradlePluginPortal()
+  mavenLocal()
+  google()
+  maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+  maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
 }
+
 
 allprojects {
   apply plugin: 'eclipse'
   apply plugin: 'idea'
+  apply plugin: 'java'
 
   // This allows you to "Build and run using IntelliJ IDEA", an option in IDEA's Settings.
   idea {
@@ -25,6 +21,12 @@ allprojects {
       testOutputDir file('build/classes/java/test')
     }
   }
+}
+
+dependencies {
+  testImplementation(platform('org.junit:junit-bom:5.11.3'))
+  testImplementation('org.junit.jupiter:junit-jupiter')
+  testRuntimeOnly('org.junit.platform:junit-platform-launcher')
 }
 
 configure(subprojects) {
@@ -45,7 +47,7 @@ configure(subprojects) {
     // iterate through all files inside that folder
     // convert it to a relative path
     // and append it to the file assets.txt
-    fileTree(assetsFolder).collect { assetsFolder.relativePath(it) }.sort().each {
+    fileTree(assetsFolder).collect { assetsFolder.relativePath(it) }.each {
       assetsFile.append(it + "\n")
     }
   }
@@ -58,7 +60,7 @@ configure(subprojects) {
 
 subprojects {
   version = '$projectVersion'
-  ext.appName = 'AP_Project'
+  ext.appName = 'angry-birds'
   repositories {
     mavenCentral()
     maven { url 'https://s01.oss.sonatype.org' }
@@ -70,4 +72,4 @@ subprojects {
   }
 }
 
-eclipse.project.name = 'AP_Project' + '-parent'
+eclipse.project.name = 'angry-birds' + '-parent'
