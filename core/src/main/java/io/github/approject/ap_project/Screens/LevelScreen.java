@@ -13,6 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import io.github.approject.ap_project.Main;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 public class LevelScreen implements Screen, InputProcessor {
 
     public final Main game;
@@ -50,21 +54,51 @@ public class LevelScreen implements Screen, InputProcessor {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Level1!");
-                game.setScreen(new Level1(game));
+                String savePath = "game1_state.ser";
+
+                GameState savedState = deserializeGameState(savePath);
+                if (savedState != null) {
+                    Level1 level1Screen = new Level1(game);
+                    level1Screen.setSavedGameState(savedState); // Save the state to be loaded later
+                    game.setScreen(level1Screen);
+                } else {
+                    System.out.println("No saved game state found. Starting a new game.");
+                    game.setScreen(new Level1(game));
+                }
             }
         });
         l2button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Level2!");
-                game.setScreen(new Level2(game));
+                String savePath = "game2_state.ser";
+
+                GameState savedState = deserializeGameState(savePath);
+                if (savedState != null) {
+                    Level2 level2Screen = new Level2(game);
+                    level2Screen.setSavedGameState(savedState); // Save the state to be loaded later
+                    game.setScreen(level2Screen);
+                } else {
+                    System.out.println("No saved game state found. Starting a new game.");
+                    game.setScreen(new Level2(game));
+                }
             }
         });
         l3button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Level3!");
-                game.setScreen(new Level3(game));
+                String savePath = "game3_state.ser";
+
+                GameState savedState = deserializeGameState(savePath);
+                if (savedState != null) {
+                    Level3 level3Screen = new Level3(game);
+                    level3Screen.setSavedGameState(savedState); // Save the state to be loaded later
+                    game.setScreen(level3Screen);
+                } else {
+                    System.out.println("No saved game state found. Starting a new game.");
+                    game.setScreen(new Level3(game));
+                }
             }
         });
 
@@ -171,5 +205,14 @@ public class LevelScreen implements Screen, InputProcessor {
     @Override
     public void dispose() {
         stagen.dispose();
+    }
+
+    private GameState deserializeGameState(String filePath) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
+            return (GameState) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println();
+            return null;
+        }
     }
 }

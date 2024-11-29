@@ -14,7 +14,7 @@ import io.github.approject.ap_project.Main;
 
 import java.io.File;
 
-public class VictoryScreen implements Screen {
+public class VictoryScreen2 implements Screen {
     public final Main game;
     private Texture bg;
     private Texture box;
@@ -24,9 +24,9 @@ public class VictoryScreen implements Screen {
     private Texture lose;
     private Stage stagen;
 
-    public VictoryScreen(Main game) {
+    public VictoryScreen2(Main game) {
         this.game = game;
-        bg = new Texture("blurredbg.png");
+        bg = new Texture("l2blurred.png");
         box = new Texture("gradbg.png");
         lose = new Texture("win.png");
         restart = new Texture("restart.png");
@@ -47,14 +47,14 @@ public class VictoryScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Restarting!");
-                game.setScreen(new Level1(game));
+                game.setScreen(new Level2(game));
             }
         });
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Going back to level screen!");
-                File file = new File("game1_state.ser");
+                File file = new File("game2_state.ser");
                 if(file.delete()){
                     System.out.println("Game Reset!");
                 }
@@ -65,7 +65,7 @@ public class VictoryScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Next Level!");
-                game.setScreen(new Level2(game));
+                game.setScreen(new Level3(game));
             }
         });
         stagen.addActor(restartButton);

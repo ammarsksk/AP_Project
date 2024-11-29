@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import io.github.approject.ap_project.Main;
 
+import java.io.File;
+
 public class LoseScreen implements Screen {
     public final Main game;
     private Texture bg;
@@ -48,12 +50,15 @@ public class LoseScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Going back to level screen!");
+                File file = new File("game1_state.ser");
+                if(file.delete()){
+                    System.out.println("Game Reset!");
+                }
                 game.setScreen(new LevelScreen(game));
             }
         });
         stagen.addActor(restartButton);
         stagen.addActor(menuButton);
-
     }
     @Override
     public void show() {

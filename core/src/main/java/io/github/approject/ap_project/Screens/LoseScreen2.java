@@ -14,63 +14,51 @@ import io.github.approject.ap_project.Main;
 
 import java.io.File;
 
-public class VictoryScreen implements Screen {
+public class LoseScreen2 implements Screen {
     public final Main game;
     private Texture bg;
     private Texture box;
     private Texture menu;
     private Texture restart;
-    private Texture next;
     private Texture lose;
     private Stage stagen;
 
-    public VictoryScreen(Main game) {
+    public LoseScreen2(Main game) {
         this.game = game;
-        bg = new Texture("blurredbg.png");
+        bg = new Texture("l2blurred.png");
         box = new Texture("gradbg.png");
-        lose = new Texture("win.png");
+        lose = new Texture("lose.png");
         restart = new Texture("restart.png");
         menu = new Texture("menu.png");
-        next = new Texture("nextLevel.png");
 
         stagen = new Stage(game.game_port);
 
         Button restartButton = new Button(new TextureRegionDrawable(new TextureRegion(restart)));
         Button menuButton = new Button(new TextureRegionDrawable(new TextureRegion(menu)));
-        Button nextButton = new Button(new TextureRegionDrawable(new TextureRegion(next)));
 
-        restartButton.setPosition(Main.V_WIDTH/2 - restart.getWidth()/2, Main.V_HEIGHT/2 - restart.getHeight()/2);
-        menuButton.setPosition(Main.V_WIDTH/2 - restart.getWidth()/2 + 100, Main.V_HEIGHT/2 - restart.getHeight()/2);
-        nextButton.setPosition(Main.V_WIDTH/2 - restart.getWidth()/2 - 100, Main.V_HEIGHT/2 - restart.getHeight()/2);
+        restartButton.setPosition(Main.V_WIDTH/2 - restart.getWidth()/2 - 100, Main.V_HEIGHT/2 - restart.getHeight()/2);
+        menuButton.setPosition(Main.V_WIDTH/2 - restart.getWidth()/2 +100, Main.V_HEIGHT/2 - restart.getHeight()/2);
 
         restartButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Restarting!");
-                game.setScreen(new Level1(game));
+                game.setScreen(new Level2(game));
             }
         });
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Going back to level screen!");
-                File file = new File("game1_state.ser");
+                File file = new File("game2_state.ser");
                 if(file.delete()){
                     System.out.println("Game Reset!");
                 }
                 game.setScreen(new LevelScreen(game));
             }
         });
-        nextButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Next Level!");
-                game.setScreen(new Level2(game));
-            }
-        });
         stagen.addActor(restartButton);
         stagen.addActor(menuButton);
-        stagen.addActor(nextButton);
 
     }
     @Override
