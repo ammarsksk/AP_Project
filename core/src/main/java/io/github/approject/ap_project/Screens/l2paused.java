@@ -14,7 +14,7 @@ import io.github.approject.ap_project.Main;
 
 import java.io.*;
 
-public class l1paused implements Screen {
+public class l2paused implements Screen {
     public final Main game;
     private Texture bg;
     private Texture box;
@@ -23,9 +23,9 @@ public class l1paused implements Screen {
     private Texture menu;
     private Stage stagen;
 
-    public l1paused(Main game) {
+    public l2paused(Main game) {
         this.game = game;
-        bg = new Texture("blurredbg.png");
+        bg = new Texture("l2blurred.png");
         box = new Texture("bbox.png");
         restart = new Texture("restart.png");
         resume = new Texture("resume.png");
@@ -45,7 +45,7 @@ public class l1paused implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Restarting!");
-                game.setScreen(new Level1(game));
+                game.setScreen(new Level2(game));
             }
         });
 
@@ -54,17 +54,17 @@ public class l1paused implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Resuming!");
 
-                String savePath = "game1_state.ser";
+                String savePath = "game2_state.ser";
                 GameState savedState = deserializeGameState(savePath);
 
                 if (savedState != null) {
                     // Pass the saved state to Level1 and let Level1 load it after initialization
-                    Level1 level1Screen = new Level1(game);
-                    level1Screen.setSavedGameState(savedState); // Save the state to be loaded later
-                    game.setScreen(level1Screen);
+                    Level2 level2Screen = new Level2(game);
+                    level2Screen.setSavedGameState(savedState); // Save the state to be loaded later
+                    game.setScreen(level2Screen);
                 } else {
                     System.out.println("No saved game state found. Starting a new game.");
-                    game.setScreen(new Level1(game));
+                    game.setScreen(new Level2(game));
                 }
             }
         });
@@ -74,7 +74,6 @@ public class l1paused implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Going back to level screen!");
-
                 game.setScreen(new LevelScreen(game));
             }
         });
